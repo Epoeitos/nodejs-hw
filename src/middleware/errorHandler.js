@@ -9,6 +9,6 @@ export function errorHandler(err, req, res, next) {
   }
 
   res.status(500).json({
-    message: isProd ? 'Something went wrong on the server.. Please wait..' : err.message,
+    message: isProd ? 'Server error. Details on dev mode...' : err.message,
   });
 }
