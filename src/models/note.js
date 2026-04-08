@@ -1,9 +1,8 @@
 import { Schema, model } from 'mongoose';
-import 'dotenv/config';
 
 import { TAGS } from '../constants/tags.js';
 
-const noteSchema = new Schema(
+const noteShema = new Schema(
   {
     title: {
       type: String,
@@ -22,6 +21,11 @@ const noteSchema = new Schema(
       enum: TAGS,
       default: 'Todo',
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,
@@ -29,7 +33,7 @@ const noteSchema = new Schema(
   },
 );
 
-noteSchema.index(
+noteShema.index(
   { title: 'text', content: 'text' },
   {
     name: 'NotesTextIndex',
@@ -38,4 +42,4 @@ noteSchema.index(
   },
 );
 
-export const Note = model('Note', noteSchema);
+export const Note = model('Note', noteShema);
