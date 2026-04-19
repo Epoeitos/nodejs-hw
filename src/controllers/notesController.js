@@ -21,7 +21,13 @@ export async function getAllNotes(req, res) {
   ]);
   const totalPages = Math.ceil(totalNotes / perPage);
 
-  res.status(200).json({ page, perPage, totalNotes, totalPages, notes });
+  res.status(200).json({
+    page,
+    perPage,
+    totalNotes,
+    totalPages,
+    notes,
+  });
 }
 
 export async function getNoteById(req, res) {
@@ -55,21 +61,15 @@ export async function deleteNote(req, res) {
 
 export async function updateNote(req, res) {
   const noteId = req.params.noteId;
-
   const note = await Note.findOneAndUpdate(
-    {
-      _id: noteId,
-      userId: req.user._id,
-    },
+    { _id: noteId, userId: req.user._id },
     req.body,
     {
-      returnDocument: 'after',
+      new: true,
     },
   );
-
   if (!note) {
     throw createHttpError(404, 'Note not found');
   }
-
   res.status(200).json(note);
 }
